@@ -100,3 +100,39 @@ Note that the same JS function can be bound to different Rust functions.
 
 ## First compilation
 Warning on `src/util.rs` because function is not yet used. Expected.
+
+## Generating the webpage
+
+In the root folder
+
+```bash
+npm init wasm-app www
+```
+
+then in `www` run `npm install` for depend.
+Also audited and fixed.
+
+The turorial talks about `"hello-wasm-pack` this is installed into `node_modules`.
+Is it generated from `pkg` or is it from the web? 
+Ah, yes it is the template from the web. 
+Added the correct path to `package.json`.
+
+Ok, after `npm install` the `./pkg` dir is copied to `node_modules` as `wasm-game-of-life`.
+Copied as-is. All files
+
+## First run
+
+Good start; got a compilation error from Webpack.
+Had to add 
+
+```js
+experiments: {
+  asyncWebAssembly: true,
+},
+```
+
+to `./www/webpack.config.js` to enable the webassembly features.
+Now work as expected.
+
+Just to test: it is sort-of possinble to do the changes in real life and compile with `wasm-pack`, but it did not always work.
+Better to stop and start the server.
