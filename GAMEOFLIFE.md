@@ -32,3 +32,24 @@ Of course is required by the `fmt::Display` Trait [here on reference](std::fmt::
 It's another way to divide the 1D array into the rows that forms the grid. 
 
 Note: for enum, reference value as `Name::atribute`
+
+## Init and render
+
+`|i|` is a closure in this case, an anonymous function. [Reference](https://doc.rust-lang.org/book/ch13-01-closures.html)
+
+## JS part
+`<pre>` is "preformatted", used for monospaced, code and similar. [Ref](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre)
+
+`<canvas>` is a drawing board. The 2d context works more or less like the turtle in python.
+The grid is drawn as move, line, move, line.
+Is saves the movements as paths, then stroke the whole object when `ctx.stroke()` is called.
+
+Problem with `memory`. It appears that is not exported by `wasm_game_of_life_bg.js`.
+Importing `wasm_game_of_life_bg.wasm` seems to resolve the error, bur the program behaves wrong.
+Console log shows that `memory.buffer` and `cells` are correct. The numbers exists and are updated.
+This do not reflect on the canvas though.
+I forgot `return` in `getIndex`: after all JS expects it, not like rust or other where it's just the last statement.
+
+Cool, everything works.
+
+## Exercises.
