@@ -4,7 +4,7 @@ use std::fmt;
 use std::usize;
 use wasm_bindgen::prelude::*;
 
-extern crate js_sys;
+use js_sys;
 
 // #[wasm_bindgen]
 // extern "C" {
@@ -79,6 +79,16 @@ impl Universe {
 
     pub fn cells(&self) -> *const Cell {
         self.cells.as_ptr() //as_ptr returns pointer
+    }
+
+    pub fn set_width(&mut self, width: u32) {
+        self.width = width;
+        self.cells = (0..self.width * self.height).map(|_| Cell::Dead).collect();
+    }
+
+    pub fn set_height(&mut self, height: u32) {
+        self.height = height;
+        self.cells = (0..self.width * self.height).map(|_| Cell::Dead).collect();
     }
 
     pub fn tick(&mut self) {

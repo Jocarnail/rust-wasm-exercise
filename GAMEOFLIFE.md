@@ -115,4 +115,10 @@ Placing works great! Remember that the position starts from 1 and not 0. Remembe
 Not bad. Not sure why the guide uses a js crate instead of a generic rust random crate.
 
 ### Refactoring cells as single bit
-For now I will do this in a branch
+For now I will do this in a branch.
+
+git is a great thing.
+
+## Testing game of life
+
+
