@@ -115,4 +115,9 @@ Placing works great! Remember that the position starts from 1 and not 0. Remembe
 Not bad. Not sure why the guide uses a js crate instead of a generic rust random crate.
 
 ### Refactoring cells as single bit
-For now I will do this in a branch
+Complex process, had to look it in the tutorial.
+The bitset stuff may be more efficient, but it is somewhat less readable than the enum. 
+It is also more difficult to convert than to to it in the first place.
+
+Note: The display was flipped because I forgot to flip the colors in JS.
+Honestly I don't mind. 
