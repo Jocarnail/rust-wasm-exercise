@@ -4,6 +4,8 @@ use std::fmt;
 use std::usize;
 use wasm_bindgen::prelude::*;
 
+extern crate js_sys;
+
 // #[wasm_bindgen]
 // extern "C" {
 //     fn alert(s: &str);
@@ -33,6 +35,15 @@ pub struct Universe {
 impl Universe {
     fn get_index(&self, row: u32, column: u32) -> usize {
         (row * self.width + column) as usize
+    }
+
+    fn get_position(&self, idx: usize) -> (u32, u32) {
+        // column can be derived by modulus operation
+        let column = idx % (self.width as usize);
+        // subtract column from idx and divide by width to get row
+        let row = (idx - column) / (self.width as usize);
+
+        (row as u32, column as u32)
     }
 
     fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
@@ -124,8 +135,90 @@ impl Universe {
         }
     }
 
+    pub fn blank() -> Universe {
+        let width = 64;
+        let height = 64;
+
+        let cells = (0..width * height).map(|_| Cell::Dead).collect();
+
+        Universe {
+            width,
+            height,
+            cells,
+        }
+    }
+
+    pub fn random() -> Universe {
+        let width = 64;
+        let height = 64;
+
+        let cells = (0..width * height)
+            .map(|_| {
+                if js_sys::Math::random() < 0.5 {
+                    Cell::Alive
+                } else {
+                    Cell::Dead
+                }
+            })
+            .collect();
+
+        Universe {
+            width,
+            height,
+            cells,
+        }
+    }
+
+    // new glider, rough implementation
+    pub fn glider() -> Universe {
+        let width = 3;
+        let height = 3;
+
+        let cells: Vec<Cell> = [
+            Cell::Dead,
+            Cell::Alive,
+            Cell::Dead,
+            Cell::Dead,
+            Cell::Dead,
+            Cell::Alive,
+            Cell::Alive,
+            Cell::Alive,
+            Cell::Alive,
+        ]
+        .to_vec();
+
+        Universe {
+            width,
+            height,
+            cells,
+        }
+    }
+
     pub fn render(&self) -> String {
         self.to_string()
+    }
+
+    pub fn place(&mut self, element: &Universe, row: u32, column: u32) {
+        let mut next = self.cells.clone();
+
+        for element_idx in 0..(element.width * element.height) as usize {
+            let donor_cell = element.cells[element_idx];
+            let (delta_row, delta_col) = element.get_position(element_idx);
+
+            let idx = self.get_index(row + delta_row - 1, column + delta_col - 1);
+            let acceptor_cell = self.cells[idx];
+
+            let next_cell = match (acceptor_cell, donor_cell) {
+                (Cell::Alive, Cell::Alive) => Cell::Dead,
+                (Cell::Alive, Cell::Dead) => Cell::Alive,
+                (Cell::Dead, Cell::Alive) => Cell::Alive,
+                (Cell::Dead, Cell::Dead) => Cell::Dead,
+            };
+
+            next[idx] = next_cell;
+        }
+
+        self.cells = next
     }
 }
 

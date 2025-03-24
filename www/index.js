@@ -11,9 +11,16 @@ const ALIVE_COLOR = "#000000";
 
 // const pre = document.getElementById("game-of-life-canvas");
 
-const universe = Universe.new();
+// const universe = Universe.new();
+// const universe = Universe.blank();
+const universe = Universe.random();
 const width = universe.width();
 const height = universe.height();
+
+// const glider = Universe.glider();
+// universe.place(glider, 1, 1);
+// universe.place(glider, 10, 3);
+// universe.place(glider, 13, 9);
 
 const canvas = document.getElementById("game-of-life-canvas");
 canvas.height = (CELL_SIZE + 1) * height + 1;
