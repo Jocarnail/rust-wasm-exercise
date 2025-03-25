@@ -120,5 +120,12 @@ For now I will do this in a branch.
 git is a great thing.
 
 ## Testing game of life
+Note why `get_cells` returns a slice? I suppose that `&self.cells` instead of `self.cells` is needed because otherwise the borrow checker would "give away" the cells?
+Either that or use clone?
 
+Default test not working. Error.
+wasm_bindgen_test_configure in `test/web.rs` is set to test only browser, but there may be a bug.
+Issue seems to be with the `--headless` flag: the test run not headless passes. Error appears only when using the headless flag.
+[Some github issue](https://github.com/rustwasm/wasm-pack/issues/1355) suggests that it is because of missing drivers.
+It is definetly missing drivers for chrome and safari. Firefox works without issues in headless.
 
